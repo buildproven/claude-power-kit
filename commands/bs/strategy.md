@@ -225,7 +225,7 @@ Present the analysis to the user:
 /bs:strategy "What's the best pricing strategy for a B2B SaaS?"
 
 # With context
-/bs:strategy "Should we add a free tier?" --context ./docs/strategy/VIBEBUILDLAB.md
+/bs:strategy "Should we add a free tier?" --context ./docs/strategy/NOTES.md
 
 # Specific providers only
 /bs:strategy "React vs Vue for dashboard app" --providers claude,openai

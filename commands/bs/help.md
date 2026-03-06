@@ -132,17 +132,3 @@ Ask Claude naturally to invoke. Example: "Use pdf skill to extract data"
 | `/bs:perfect`         | `/bs:quality --level 98`         |
 | `/bs:perfect --merge` | `/bs:quality --level 98 --merge` |
 
-### Commands Moved to VibeBuildLab Product (CS-004 cleanup)
-
-| Old Command    | Status                                         |
-| -------------- | ---------------------------------------------- |
-| `/bs:validate` | Moved to VibeBuildLab product                  |
-| `/bs:build`    | Moved to VibeBuildLab product                  |
-| `/bs:ship`     | Moved to VibeBuildLab product                  |
-| `/bs:launch`   | Moved to VibeBuildLab product                  |
-| `/bs:grow`     | Moved to VibeBuildLab product                  |
-| `/bs:run`      | Moved to VibeBuildLab product                  |
-| `/bs:project`  | Moved to VibeBuildLab product                  |
-| `/bs:monitor`  | Moved to VibeBuildLab product                  |
-| `/bs:queue`    | Moved to VibeBuildLab product (`/vbl-queue`)   |
-| `/bs:revenue`  | Moved to VibeBuildLab product (`/vbl-revenue`) |
