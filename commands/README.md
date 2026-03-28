@@ -214,6 +214,6 @@ cd my-project
 ## Notes
 
 - **No VBL pipeline here**: Commands like validate/build/ship/launch were product-specific and removed in CS-004 cleanup
-- **Business commands**: `/vbl-revenue` and `/vbl-queue` live in the vibebuildlab project repo
+- **Business commands**: `/vbl-revenue` and `/vbl-queue` live in the buildproven project repo
 - **Symlink-based**: Edit commands in `claude-setup/commands/`, changes apply globally
 - **Version controlled**: All configs tracked in git for easy replication
