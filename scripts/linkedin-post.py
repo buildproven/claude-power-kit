@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Standalone LinkedIn posting CLI for OpenClaw agents and scripts.
+"""Standalone LinkedIn posting CLI for AI agents and scripts.
 
 Usage:
   linkedin-post.py text "Post content here"
