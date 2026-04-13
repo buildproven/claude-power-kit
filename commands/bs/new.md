@@ -22,7 +22,7 @@ my-project/
 ├── .git/                    # Git initialized
 ├── .github/workflows/       # GitHub Actions (qa-architect)
 ├── .husky/                  # Git hooks (qa-architect)
-├── .claude-setup/           # claude-setup submodule
+├── .claude-kit/           # claude-kit submodule
 ├── .qualityrc.json          # Quality maturity: prototype
 ├── .prettierrc              # Formatting rules (qa-architect)
 ├── .prettierignore          # Ignore patterns
@@ -84,16 +84,16 @@ git init
 echo "✅ Git initialized"
 ```
 
-### Step 4: Add claude-setup Submodule
+### Step 4: Add claude-kit Submodule
 
 ```bash
 # Add submodule
-git submodule add https://github.com/buildproven/claude-kit.git .claude-setup
+git submodule add https://github.com/buildproven/claude-kit.git .claude-kit
 
 # Create symlink to make commands available
-ln -s .claude-setup ~/.claude 2>/dev/null || true
+ln -s .claude-kit ~/.claude 2>/dev/null || true
 
-echo "✅ Added claude-setup submodule"
+echo "✅ Added claude-kit submodule"
 ```
 
 ### Step 5: Create .qualityrc.json
@@ -292,7 +292,7 @@ npm run test:coverage       # Coverage report
 
 ---
 
-_Quality infrastructure from claude-setup. Global rules in `~/.claude/CLAUDE.md`._
+_Quality infrastructure from claude-kit. Global rules in `~/.claude/CLAUDE.md`._
 
 ````
 
@@ -399,7 +399,7 @@ git commit -m "chore: initial project setup with quality infrastructure
 - ESLint + Prettier + Stylelint
 - Husky + lint-staged pre-commit hooks
 - GitHub Actions quality workflow
-- claude-setup submodule
+- claude-kit submodule
 - Secret scanning config
 - Basic project structure
 

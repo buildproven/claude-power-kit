@@ -11,7 +11,7 @@
     "security",
     "best-practices"
   ],
-  "author": "Your Name",
+  "author": "buildproven",
   "license": "MIT",
   "peerDependencies": {
     "eslint": ">=8.0.0"
@@ -29,6 +29,6 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_USERNAME/claude-kit"
+    "url": "https://github.com/buildproven/claude-kit"
   }
 }

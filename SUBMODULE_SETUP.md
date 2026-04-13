@@ -29,7 +29,7 @@ That's it! Commands now work everywhere.
 
 ```
 your-repo/
-├── .claude-setup/              ← Submodule (claude-setup repo)
+├── .claude-kit/                ← Submodule (claude-kit repo)
 │   ├── commands/
 │   │   ├── bs/
 │   │   ├── gh/
@@ -39,10 +39,10 @@ your-repo/
 │   └── skills/
 │
 ├── .claude/                    ← Symlinks to submodule
-│   ├── commands → ../.claude-setup/commands
-│   ├── CLAUDE.md → ../.claude-setup/config/CLAUDE.md
-│   ├── scripts → ../.claude-setup/scripts
-│   └── skills → ../.claude-setup/skills
+│   ├── commands → ../.claude-kit/commands
+│   ├── CLAUDE.md → ../.claude-kit/config/CLAUDE.md
+│   ├── scripts → ../.claude-kit/scripts
+│   └── skills → ../.claude-kit/skills
 │
 └── .gitmodules                 ← Git submodule config
 ```
@@ -55,10 +55,10 @@ your-repo/
 git clone your-repo
 cd your-repo
 
-# Initialize submodules (brings in claude-setup)
+# Initialize submodules (brings in claude-kit)
 git submodule update --init --recursive
 
-# Symlinks now work! .claude/commands points to .claude-setup/commands
+# Symlinks now work! .claude/commands points to .claude-kit/commands
 # Try: /bs:help
 ```
 
@@ -84,12 +84,12 @@ git submodule update --init --recursive
 ### Pull Latest Commands
 
 ```bash
-cd .claude-setup
+cd .claude-kit
 git pull origin main
 cd ..
 
 # Commit the submodule update
-git add .claude-setup
+git add .claude-kit
 git commit -m "Update Claude commands to latest"
 git push
 ```
@@ -97,19 +97,19 @@ git push
 ### Edit Commands Directly
 
 ```bash
-cd .claude-setup
+cd .claude-kit
 
 # Make changes to commands
 vim commands/bs/dev.md
 
-# Commit to claude-setup
+# Commit to claude-kit
 git add commands/bs/dev.md
 git commit -m "Update bs:dev command"
 git push
 
 # Back to main repo, update submodule reference
 cd ..
-git add .claude-setup
+git add .claude-kit
 git commit -m "Update Claude commands"
 git push
 ```
@@ -118,7 +118,7 @@ git push
 
 ✅ **Single Source of Truth**
 
-- All repos use same claude-setup
+- All repos use the same claude-kit
 - Update once, applies everywhere
 
 ✅ **Works Everywhere**
@@ -154,8 +154,8 @@ git push
 
 ```bash
 # In each repo:
-cd .claude-setup && git pull && cd ..
-git add .claude-setup
+cd .claude-kit && git pull && cd ..
+git add .claude-kit
 git commit -m "Update commands"
 git push
 ```
@@ -163,8 +163,8 @@ git push
 ### Remove Commands from Repo
 
 ```bash
-git submodule deinit .claude-setup
-git rm .claude-setup
+git submodule deinit .claude-kit
+git rm .claude-kit
 rm -rf .claude
 git commit -m "Remove Claude commands"
 ```
@@ -172,11 +172,11 @@ git commit -m "Remove Claude commands"
 ### Use Different Version of Commands
 
 ```bash
-cd .claude-setup
-git checkout v1.2.0  # or specific commit
+cd .claude-kit
+git checkout v1.0.0  # or specific commit
 cd ..
-git add .claude-setup
-git commit -m "Pin commands to v1.2.0"
+git add .claude-kit
+git commit -m "Pin commands to v1.0.0"
 ```
 
 ## Troubleshooting
@@ -189,7 +189,7 @@ git submodule update --init --recursive
 
 # Verify symlink
 ls -la .claude/commands
-# Should show: commands -> ../.claude-setup/commands
+# Should show: commands -> ../.claude-kit/commands
 
 # Check submodule status
 git submodule status
@@ -211,7 +211,7 @@ git submodule update --init --recursive --force
 ```bash
 # Remove and recreate
 rm .claude/commands
-ln -s ../.claude-setup/commands .claude/commands
+ln -s ../.claude-kit/commands .claude/commands
 git add .claude/commands
 git commit -m "Fix commands symlink"
 ```
@@ -228,7 +228,7 @@ A: Yes! Edit `.gitmodules` to specify branch.
 A: Create `.claude/commands-local/` for repo-specific commands.
 
 **Q: Does this work with private repos?**
-A: Yes, as long as you have access to claude-setup.
+A: Yes, as long as you have access to claude-kit.
 
 **Q: Can I use this with the CLI setup too?**
 A: Yes! They work together. CLI uses `~/.claude/`, submodule works in repos.
@@ -238,7 +238,7 @@ A: Yes! They work together. CLI uses `~/.claude/`, submodule works in repos.
 Set your own repo URL:
 
 ```bash
-export CLAUDE_SETUP_REPO="https://github.com/YOUR-USERNAME/your-claude-setup.git"
+export CLAUDE_KIT_REPO="https://github.com/buildproven/your-claude-kit.git"
 bash <(curl -sL https://raw.githubusercontent.com/buildproven/claude-kit/main/scripts/install-via-submodule.sh)
 ```
 

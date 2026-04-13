@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-BACKUP_DIR="$HOME/Projects/claude-setup/backups"
+BACKUP_DIR="$HOME/Projects/claude-kit/backups"
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 BACKUP_FILE="social-setup-backup-$TIMESTAMP.tar.gz"
 
@@ -38,9 +38,9 @@ else
 fi
 
 # Copy script files
-cp -r "$HOME/Projects/claude-setup/scripts" "$TEMP_BACKUP/" 2>/dev/null || true
-cp -r "$HOME/Projects/claude-setup/commands" "$TEMP_BACKUP/" 2>/dev/null || true
-cp -r "$HOME/Projects/claude-setup/docs" "$TEMP_BACKUP/" 2>/dev/null || true
+cp -r "$HOME/Projects/claude-kit/scripts" "$TEMP_BACKUP/" 2>/dev/null || true
+cp -r "$HOME/Projects/claude-kit/commands" "$TEMP_BACKUP/" 2>/dev/null || true
+cp -r "$HOME/Projects/claude-kit/docs" "$TEMP_BACKUP/" 2>/dev/null || true
 
 echo "✅ Scripts and documentation"
 

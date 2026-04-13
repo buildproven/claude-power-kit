@@ -167,7 +167,7 @@ else
 fi
 
 # Initialize HUD state for live dashboard display (CS-061)
-HUD_SCRIPT="${HOME}/Projects/claude-setup/scripts/hud-update.sh"
+HUD_SCRIPT="${SETUP_REPO:-$HOME/Projects/claude-kit}/scripts/hud-update.sh"
 if [ -f "$HUD_SCRIPT" ]; then
   "$HUD_SCRIPT" --start --command "/bs:dev" --item "$NAME" --status "running"
 fi

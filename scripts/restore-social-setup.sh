@@ -2,7 +2,7 @@
 # =============================================================================
 # Restore Social Media Setup - Import credentials from another computer
 # =============================================================================
-# Part of claude-setup - portable Claude Code configuration
+# Part of claude-kit - portable Claude Code configuration
 #
 # Usage:
 #   ./scripts/restore-social-setup.sh                     # Interactive mode
@@ -13,7 +13,7 @@
 
 set -euo pipefail
 
-PROJECT_DIR="$HOME/Projects/claude-setup"
+PROJECT_DIR="$HOME/Projects/claude-kit"
 CREDENTIALS_FILE="$PROJECT_DIR/config/social-credentials.env"
 CLAUDE_DIR="$HOME/.claude"
 
@@ -113,7 +113,7 @@ restore_from_scp() {
 
     # Try common locations
     local remote_paths=(
-        "Projects/claude-setup/config/social-credentials.env"
+        "Projects/claude-kit/config/social-credentials.env"
         ".claude/social-credentials.env"
     )
 
@@ -143,7 +143,7 @@ setup_symlink() {
     fi
 
     ln -s "$CREDENTIALS_FILE" "$CLAUDE_DIR/social-credentials.env"
-    log_success "Symlink created: ~/.claude/social-credentials.env → claude-setup"
+    log_success "Symlink created: ~/.claude/social-credentials.env → claude-kit"
 }
 
 verify_credentials() {

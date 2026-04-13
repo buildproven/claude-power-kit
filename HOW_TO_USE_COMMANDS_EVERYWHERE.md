@@ -30,7 +30,7 @@ git push
 ### Option 3: Download and run
 
 ```bash
-curl -sL https://raw.githubusercontent.com/YOUR-USERNAME/claude-kit/main/scripts/install-commands-to-repo.sh | bash
+curl -sL https://raw.githubusercontent.com/buildproven/claude-kit/main/scripts/install-commands-to-repo.sh | bash
 
 git add .claude
 git commit -m "Add Claude Code commands"

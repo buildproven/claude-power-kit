@@ -24,14 +24,14 @@ cat ~/.ssh/id_ed25519.pub
 # 1. Navigate to your repo
 cd /path/to/your-repo
 
-# 2. Add claude-setup as submodule (SSH URL for private repos)
-git submodule add https://github.com/buildproven/claude-kit.git .claude-setup
+# 2. Add claude-kit as submodule (SSH URL for private repos)
+git submodule add https://github.com/buildproven/claude-kit.git .claude-kit
 
 # 3. Create symlinks
 mkdir -p .claude
-ln -s ../.claude-setup/commands .claude/commands
-ln -s ../.claude-setup/scripts .claude/scripts
-ln -s ../.claude-setup/skills .claude/skills
+ln -s ../.claude-kit/commands .claude/commands
+ln -s ../.claude-kit/scripts .claude/scripts
+ln -s ../.claude-kit/skills .claude/skills
 
 # NOTE: Do NOT symlink CLAUDE.md - each repo should have its own
 
@@ -39,7 +39,7 @@ ln -s ../.claude-setup/skills .claude/skills
 ls -la .claude/commands/bs/
 
 # 5. Commit and push
-git add .gitmodules .claude-setup .claude
+git add .gitmodules .claude-kit .claude
 git commit -m "Add Claude commands via submodule"
 git push
 ```
@@ -60,15 +60,15 @@ Open the repo in Claude Code Web UI and try `/bs:help`
 
 ## Update Commands in All Repos
 
-When you update claude-setup:
+When you update claude-kit:
 
 ```bash
 # In any repo using the submodule
 cd your-repo
-cd .claude-setup
+cd .claude-kit
 git pull origin main
 cd ..
-git add .claude-setup
+git add .claude-kit
 git commit -m "Update Claude commands"
 git push
 ```
@@ -85,26 +85,26 @@ git submodule update --init --recursive
 
 ```bash
 ls -la .claude/
-# Should show symlinks pointing to ../.claude-setup/
+# Should show symlinks pointing to ../.claude-kit/
 ```
 
 **Commands not showing in Web UI?**
 
 - Make sure you pushed the commit to GitHub
 - Close and reopen the repo in Web UI
-- Check that submodule cloned: `ls .claude-setup/`
+- Check that submodule cloned: `ls .claude-kit/`
 
 ## One-Liner (Copy-Paste)
 
 ```bash
-git submodule add https://github.com/buildproven/claude-kit.git .claude-setup && mkdir -p .claude && ln -s ../.claude-setup/commands .claude/commands && ln -s ../.claude-setup/scripts .claude/scripts && ln -s ../.claude-setup/skills .claude/skills && git add .gitmodules .claude-setup .claude && git commit -m "Add Claude commands via submodule" && git push
+git submodule add https://github.com/buildproven/claude-kit.git .claude-kit && mkdir -p .claude && ln -s ../.claude-kit/commands .claude/commands && ln -s ../.claude-kit/scripts .claude/scripts && ln -s ../.claude-kit/skills .claude/skills && git add .gitmodules .claude-kit .claude && git commit -m "Add Claude commands via submodule" && git push
 ```
 
 ## What Gets Added
 
 ```
 your-repo/
-├── .claude-setup/          # Submodule (claude-setup)
+├── .claude-kit/          # Submodule (claude-kit)
 │   ├── commands/
 │   ├── config/
 │   ├── scripts/
@@ -112,9 +112,9 @@ your-repo/
 │
 ├── .claude/
 │   ├── CLAUDE.md           # Repo-specific (DO NOT symlink)
-│   ├── commands → ../.claude-setup/commands
-│   ├── scripts → ../.claude-setup/scripts
-│   └── skills → ../.claude-setup/skills
+│   ├── commands → ../.claude-kit/commands
+│   ├── scripts → ../.claude-kit/scripts
+│   └── skills → ../.claude-kit/skills
 │
 └── .gitmodules             # Git submodule config
 ```

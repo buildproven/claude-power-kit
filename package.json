@@ -1,8 +1,8 @@
 {
-  "name": "claude-setup",
+  "name": "claude-kit",
   "version": "1.0.0",
   "private": true,
-  "description": "Central repository for Claude Code configuration, commands, skills, and MCP servers",
+  "description": "Free, open-source Claude Code toolkit — commands, skills, agents, and quality automation",
   "scripts": {
     "prepare": "[ \"$CI\" = \"true\" ] && echo 'Skipping Husky in CI' || husky",
     "format": "prettier --write .",

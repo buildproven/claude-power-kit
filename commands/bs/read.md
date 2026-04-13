@@ -28,10 +28,10 @@ Read these files to understand the current configuration:
 
 ```bash
 # Global config
-cat ~/Projects/claude-setup/config/CLAUDE.md
+cat ~/Projects/claude-kit/config/CLAUDE.md
 
 # Project CLAUDE.md (session learnings, workflows)
-cat ~/Projects/claude-setup/CLAUDE.md
+cat ~/Projects/claude-kit/CLAUDE.md
 ```
 
 For each key insight from the article, assess:

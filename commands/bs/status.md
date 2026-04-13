@@ -17,7 +17,7 @@ model: haiku
 ## Example Output
 
 ```
-📊 Project Status: claude-setup
+📊 Project Status: claude-kit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ## Recent Activity (Last 7 Days)

@@ -2,7 +2,7 @@
 # Wrapper script to run DataForSEO MCP server with env from central .env file
 
 # Load environment variables from central .env
-ENV_FILE="$HOME/Projects/claude-setup/.env"
+ENV_FILE="$HOME/Projects/claude-kit/.env"
 
 if [ -f "$ENV_FILE" ]; then
   # Export only the DataForSEO variables
@@ -12,4 +12,4 @@ if [ -f "$ENV_FILE" ]; then
 fi
 
 # Run the MCP server
-exec node "$HOME/Projects/claude-setup/mcp-servers/dataforseo-mcp-server/dist/index.js"
+exec node "$HOME/Projects/claude-kit/mcp-servers/dataforseo-mcp-server/dist/index.js"

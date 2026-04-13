@@ -1,7 +1,7 @@
 #!/bin/bash
 # SessionStart hook: inject context, repo hygiene check, and SOTA staleness check
 
-SETUP_REPO="${SETUP_REPO:-$HOME/Projects/claude-setup}"
+SETUP_REPO="${SETUP_REPO:-$HOME/Projects/claude-kit}"
 SOTA_HISTORY="$SETUP_REPO/data/sota-history.json"
 
 # --- Repo hygiene: prune local branches and check open PR count ---

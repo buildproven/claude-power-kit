@@ -6,10 +6,10 @@
 #
 # Usage:
 #   # From within any repo:
-#   curl -sL https://raw.githubusercontent.com/YOUR-USERNAME/claude-setup/main/scripts/install-commands-to-repo.sh | bash
+#   curl -sL https://raw.githubusercontent.com/buildproven/claude-kit/main/scripts/install-commands-to-repo.sh | bash
 #
-#   # Or if claude-setup is cloned locally:
-#   /path/to/claude-setup/scripts/install-commands-to-repo.sh
+#   # Or if claude-kit is cloned locally:
+#   /path/to/claude-kit/scripts/install-commands-to-repo.sh
 # =============================================================================
 
 set -euo pipefail
@@ -43,15 +43,15 @@ log "Installing commands to: $COMMANDS_DIR"
 mkdir -p "$COMMANDS_DIR"
 
 # Find the source commands directory
-if [[ -d "$HOME/Projects/claude-setup/commands" ]]; then
-    SOURCE_DIR="$HOME/Projects/claude-setup/commands"
+if [[ -d "$HOME/Projects/claude-kit/commands" ]]; then
+    SOURCE_DIR="$HOME/Projects/claude-kit/commands"
 elif [[ -d "$(dirname "$0")/../commands" ]]; then
     SOURCE_DIR="$(cd "$(dirname "$0")/../commands" && pwd)"
 else
-    echo "❌ Cannot find claude-setup commands directory"
+    echo "❌ Cannot find claude-kit commands directory"
     echo ""
     echo "Clone it first:"
-    echo "  git clone YOUR-REPO ~/Projects/claude-setup"
+    echo "  git clone YOUR-REPO ~/Projects/claude-kit"
     exit 1
 fi
 
