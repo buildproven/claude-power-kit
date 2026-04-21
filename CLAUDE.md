@@ -1,0 +1,117 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## What this repo is
+
+`claude-kit` is the **public, free core layer** of a three-tier Claude Code toolkit. It ships commands, skills, agents, hooks, and setup scripts that get symlinked into `~/.claude/` (globally) or `.claude/` (per-project, typically via git submodule). There is no runtime product — the artifacts here _are_ the product.
+
+Three tiers stack bottom-up, each submoduling the one below:
+
+1. **claude-kit** (this repo) — core dev commands, quality gates, skills, review agents
+2. **claude-kit-pro** (private, paid) — adds autonomous workflow, session mgmt, premium skills
+3. **Private overlay** — per-operator `CLAUDE.md`, private commands, secrets
+
+See `EXTENSION-ARCHITECTURE.md` for the contract. The key rule: **lower layers never embed references to higher layers**. Don't hardcode `claude-kit-pro` or private-overlay paths in anything under this repo.
+
+## Installation model (important mental model)
+
+There are two install surfaces, both work via symlinks so edits propagate without copy:
+
+- **Global** — `./install.sh` → `scripts/setup-claude-sync.sh` symlinks this repo's `commands/`, `skills/`, `agents/`, `scripts/` into `~/.claude/`. Hook commands in `config/settings.json` resolve via `$HOME/.claude/scripts/...`.
+- **Per-repo** — `scripts/install-commands-to-repo.sh` or the submodule flow in `QUICK_START.md` / `SUBMODULE_SETUP.md`. Target repo gets `.claude-setup/` (submodule) and `.claude/` with symlinks into it.
+
+When editing, you are editing the source that both surfaces read. There is no build step — changes to a command or skill `.md` are live immediately.
+
+## Commands
+
+```bash
+# Install (symlink commands/skills/agents/scripts into ~/.claude/)
+./install.sh
+
+# Lint (ESLint 9 flat config, security + defensive plugins)
+npm run lint
+npm run lint:fix
+
+# Format
+npm run format         # writes
+npm run format:check   # dry-run
+
+# Tests — Vitest, only runs scripts/__tests__/**.test.js and tests/unit/**.test.js
+npm test
+npm run test:watch
+npm run test:coverage                            # 30% threshold (lines/fns/branches/stmts)
+npx vitest run scripts/__tests__/foo.test.js     # single file
+npx vitest run -t "pattern name"                 # single test by name
+
+# Pattern / shell checks
+npm run test:patterns       # scripts/pattern-check.sh --all
+npm run pattern-check       # scripts/pattern-check.sh
+
+# Security / dead code / licenses
+npm run security:audit      # npm audit high
+npm run security:scan       # semgrep via scripts/run-semgrep.sh
+npm run dead-code           # knip (non-blocking)
+npm run dead-code:strict    # knip (blocking)
+npm run license:check       # MIT/ISC/BSD/Apache/MPL only
+npm run test:mutants        # Stryker — only mutates scripts/risk-policy-gate.js
+```
+
+Node 20+ (`engines.node`, pinned via Volta to 20.11.1). Python tooling (ruff/black/mypy) is configured in `pyproject.toml` for the handful of Python scripts in `scripts/` — but there is no `pytest` suite wired up despite `tests/` existing.
+
+## Architecture
+
+### What lives where, and what depends on what
+
+```
+commands/         Slash commands — frontmatter + markdown prompts
+  bs/             /bs:* workflow commands (dev, quality, test, plan, ...)
+  gh/             /gh:* GitHub (review-pr, fix-issue)
+  cc/             /cc:* Claude Code meta (create-command, optimize)
+  *.md            Top-level: debug, refactor, update-claudemd, bs:scrub
+skills/           Auto-invoked capabilities — each has SKILL.md + optional refs
+agents/           Subagent definitions — code-reviewer, security-auditor
+scripts/          Hooks, CI gates, utilities (bash + node + python)
+  __tests__/      Vitest tests (node only) — the ONLY test surface
+config/           Template CLAUDE.md + settings.json for distribution
+eslint-plugin-defensive/   Local ESLint plugin published via path import
+mcp-servers/      Vendored MCP server subtrees (dataforseo, facebook, twitter)
+templates/        Starter files copied by /bs:new and related commands
+.github/workflows/  quality, auto-release, cascade-to-pro, stale-*, harness-gate
+```
+
+`scripts/` is the only code surface with runtime logic worth testing. Commands, skills, and agents are prompt documents — they're "code" only in that Claude executes them, so keep them terse and concrete rather than trying to unit-test them.
+
+### Hook system (lives in `config/settings.json`)
+
+The distributed `settings.json` wires bash scripts in `scripts/` to Claude Code lifecycle events. Key ones:
+
+- **PreToolUse (Bash)** → `block-push-main.sh`, `block-commit-main.sh`, `branch-drift-guard.sh`
+- **PreToolUse (Edit/Write/MultiEdit)** → `auto-branch-on-main.sh` (forces branching off main before edits)
+- **PostToolUse (Edit/Write/MultiEdit)** → `post-edit-lint.sh`
+- **Stop** → `stop-validation.sh`, `multi-session-cleanup.sh`
+- **SessionStart** → `session-start-context.sh`, `multi-session-guard.sh`
+
+When changing any of these scripts: the hook invokes them as `$HOME/.claude/scripts/<name>` after symlink, so test via the symlinked path if you hit pathing issues. Timeouts in `settings.json` (ms) are not generous — a slow hook will silently time out.
+
+### Quality / release automation
+
+- `.github/workflows/quality.yml` runs the gate in CI. Stryker mutation testing is scoped narrowly to `scripts/risk-policy-gate.js` only — don't broaden without reason, it's slow.
+- `.github/workflows/cascade-to-pro.yml` auto-opens a submodule-bump PR in `claude-kit-pro` on push to `main`. Anything committed here propagates up within minutes.
+- `.husky/` + `lint-staged` run prettier/eslint/bash-syntax on commit. `commitlint.config.js` enforces conventional commits (`feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert`).
+
+### ESLint setup
+
+`eslint.config.cjs` is a flat config that **gracefully degrades** if optional plugins aren't installed (`@typescript-eslint/*`, `eslint-plugin-security`, `eslint-plugin-n`). Don't change the try/catch pattern — the config runs inside downstream projects that may not have these installed.
+
+Scripts directory gets looser security rules (`scripts/**/*.js` allows object injection, non-literal fs, non-literal regexp) because build tooling legitimately needs dynamic access.
+
+`eslint-plugin-defensive/` is a local plugin (not published) shipping five rules: `no-unsafe-json-parse`, `no-empty-catch`, `require-auth-middleware`, `require-useCallback`, `require-guard-clause`. It is referenced by path from downstream projects' ESLint configs, not by npm install.
+
+## Gotchas
+
+- **Symlinks, not copies.** Editing a file here changes behavior in every machine/repo that symlinks it. Don't rename or move files under `commands/`, `skills/`, `agents/`, `scripts/` without checking what references them by path — `settings.json` and downstream overlays will have dangling links.
+- **No TypeScript sources.** Despite TS plugin config in ESLint, there is no `tsconfig.json` or TS code. The TS branch is there for downstream projects. Don't add TypeScript here without widening scope deliberately.
+- **`tests/` vs `scripts/__tests__/`**. Only the latter runs. `tests/__init__.py` is a vestigial Python stub — `pyproject.toml` references it but there's no runner configured.
+- **Knip is non-blocking by default** (`dead-code` script swallows exit code). Use `dead-code:strict` before shipping structural refactors.
+- **The `install.sh` at repo root is a thin wrapper**. Real work happens in `scripts/setup-claude-sync.sh`.
