@@ -408,7 +408,7 @@ remove_skills() {
     echo "============================================================"
     echo ""
 
-    if [[ -d "$SKILLS_DIR" ]]; then
+    if [[ -d "$SKILLS_DIR" ]] && [[ -n "$SKILLS_DIR" ]] && [[ "$SKILLS_DIR" != "/" ]]; then
         rm -rf "$SKILLS_DIR"
         log_success "Skills directory removed"
     else
