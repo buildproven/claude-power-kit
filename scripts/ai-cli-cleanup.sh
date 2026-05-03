@@ -252,7 +252,7 @@ if $KILL_ZOMBIES; then
         if $DRY_RUN; then
             log_delete "[DRY-RUN] Would clear npx cache ($NPX_SIZE)"
         else
-            rm -rf "$NPX_CACHE"/* 2>/dev/null
+            rm -rf "${NPX_CACHE:?}/"* 2>/dev/null
             log_success "Cleared npx cache ($NPX_SIZE)"
         fi
     fi

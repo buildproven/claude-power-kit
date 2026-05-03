@@ -76,26 +76,27 @@ function getAgentTaskFiles() {
 }
 
 function buildStatus() {
-  const home = process.env.HOME;
-  const claudeDir = path.join(home, "Projects", "claude-setup", ".claude");
+  const claudeDir = process.env.CLAUDE_DASHBOARD_DIR || "";
 
-  const devState = safeRead(path.join(claudeDir, "ralph-dev-state.json"));
+  const devState = claudeDir ? safeRead(path.join(claudeDir, "dev-state.json")) : null;
 
   let evidence = [];
-  const evidenceDir = path.join(claudeDir, "ralph-next");
-  try {
-    if (fs.existsSync(evidenceDir)) {
-      evidence = fs
-        .readdirSync(evidenceDir)
-        .filter((f) => f.endsWith(".json"))
-        .map((f) => {
-          const data = safeRead(path.join(evidenceDir, f));
-          return { file: f, ...data };
-        })
-        .filter(Boolean);
+  if (claudeDir) {
+    const evidenceDir = path.join(claudeDir, "next");
+    try {
+      if (fs.existsSync(evidenceDir)) {
+        evidence = fs
+          .readdirSync(evidenceDir)
+          .filter((f) => f.endsWith(".json"))
+          .map((f) => {
+            const data = safeRead(path.join(evidenceDir, f));
+            return { file: f, ...data };
+          })
+          .filter(Boolean);
+      }
+    } catch {
+      // dir may not exist
     }
-  } catch {
-    // dir may not exist
   }
 
   return {
