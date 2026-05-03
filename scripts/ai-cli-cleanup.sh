@@ -58,7 +58,7 @@ delete_path() {
     local path="$1"
     local desc="$2"
 
-    if [[ -e "$path" ]]; then
+    if [[ -e "$path" ]] && [[ -n "$path" ]] && [[ $(echo "$path" | tr -cd '/' | wc -c) -ge 3 ]]; then
         local size=$(get_size "$path")
         if $DRY_RUN; then
             log_delete "[DRY-RUN] Would delete $desc ($size): $path"

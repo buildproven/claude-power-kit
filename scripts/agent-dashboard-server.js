@@ -111,7 +111,7 @@ const server = http.createServer((req, res) => {
   if (req.url === "/api/status") {
     res.writeHead(200, {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": `http://localhost:${PORT}`,
     });
     res.end(JSON.stringify(buildStatus()));
   } else if (req.url === "/" || req.url === "/index.html") {
@@ -129,6 +129,6 @@ const server = http.createServer((req, res) => {
   }
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, "127.0.0.1", () => {
   console.log(`Agent Dashboard running at http://localhost:${PORT}`);
 });

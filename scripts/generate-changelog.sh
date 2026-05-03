@@ -22,7 +22,12 @@ CHANGELOG_FILE="CHANGELOG.md"
 # Parse arguments
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --since) SINCE_TAG="$2"; shift 2 ;;
+    --since)
+      SINCE_TAG="$2"
+      if [[ ! "$SINCE_TAG" =~ ^[a-zA-Z0-9._/-]+$ ]]; then
+        echo "Invalid --since value: $SINCE_TAG" >&2; exit 1
+      fi
+      shift 2 ;;
     --apply) MODE="apply"; shift ;;
     --dry-run) MODE="dry-run"; shift ;;
     --full) FULL_MODE=true; shift ;;
@@ -57,17 +62,15 @@ fi
 # Temp files for collecting commits by type (Bash 3.2 compatible — no associative arrays)
 TMPDIR_CL=$(mktemp -d)
 touch "$TMPDIR_CL/feat" "$TMPDIR_CL/fix" "$TMPDIR_CL/docs" "$TMPDIR_CL/refactor" "$TMPDIR_CL/perf" "$TMPDIR_CL/other"
-trap 'rm -rf "$TMPDIR_CL"' EXIT
-
-# Read commits (handle empty range)
-if [ -n "$RANGE" ]; then
-  GIT_LOG_CMD="git log $RANGE --pretty=format:%s --no-merges"
-else
-  GIT_LOG_CMD="git log --pretty=format:%s --no-merges"
-fi
+cleanup_tmpdir() { [[ -n "$TMPDIR_CL" ]] && rm -rf "$TMPDIR_CL"; }
+trap cleanup_tmpdir EXIT
 
 # Write commits to temp file first, then process (avoids subshell pipe issue)
-eval "$GIT_LOG_CMD" 2>/dev/null > "$TMPDIR_CL/commits"
+if [ -n "$RANGE" ]; then
+  git log "$RANGE" --pretty=format:%s --no-merges 2>/dev/null > "$TMPDIR_CL/commits"
+else
+  git log --pretty=format:%s --no-merges 2>/dev/null > "$TMPDIR_CL/commits"
+fi
 
 while IFS= read -r line; do
   [ -z "$line" ] && continue
