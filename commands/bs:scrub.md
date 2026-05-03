@@ -218,7 +218,8 @@ UNTIL: Zero P0/P1 security issues AND zero private info found
 
 THEN:
   8. Git history check
-  9. Final report to user
+  9. Version bump + GitHub release
+  10. Final report to user
 ```
 
 ## TodoWrite Integration
@@ -233,7 +234,8 @@ Use TodoWrite to track progress:
 - Phase 6: Git history checked
 - Phase 7: Documentation created (mode-appropriate)
 - Phase 8: Final security scan - PASSED
-- Phase 9: Release ready
+- Phase 9: Version bumped + GitHub release created
+- Phase 10: Release ready
 
 ## Output Format
 
@@ -277,6 +279,41 @@ RELEASE READY ([MODE])
   Documentation: COMPLETE
   Ready to [publish|distribute|sell]!
 ```
+
+## Phase 9: Version Bump + GitHub Release (All Modes)
+
+After all exit criteria pass and `.scrub.log` is written:
+
+1. **Determine next version:**
+   - Read current version from `package.json` (or `pyproject.toml`, `Cargo.toml`, etc.)
+   - Determine bump type: patch for fixes/docs, minor for new features, major for breaking changes
+   - A scrub-only release (no new features) is always a **patch**
+
+2. **Bump version in manifest:**
+   - Edit `package.json` (or equivalent) with the new version
+   - If a `CHANGELOG.md` exists, add a new version section at the top with today's date and the scrub changes
+
+3. **Commit, tag, and push:**
+   ```bash
+   git add package.json CHANGELOG.md   # (or equivalent)
+   git commit -m "chore: bump version to X.Y.Z"
+   git push
+   ```
+
+4. **Cut the GitHub release:**
+   - Generate release notes from the scrub summary (security fixes, docs added, etc.)
+   - Write notes to a temp file and use `gh release create`:
+   ```bash
+   gh release create vX.Y.Z \
+     --title "vX.Y.Z" \
+     --notes-file /tmp/release-notes.md \
+     --latest
+   ```
+   - Report the release URL to the user
+
+**If no `package.json` or version manifest exists:** skip the version bump, still cut the GitHub release tagged from the current HEAD.
+
+---
 
 ## Execution Receipt (MANDATORY)
 
@@ -338,4 +375,6 @@ Only complete when ALL true:
 - [ ] Git history checked (scrubbed or user warned)
 - [ ] Mode-specific documentation complete
 - [ ] `.scrub.log` receipt written
+- [ ] Version bumped in manifest (or no manifest present)
+- [ ] GitHub release created and tagged
 - [ ] User confirms ready to release
