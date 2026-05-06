@@ -294,6 +294,7 @@ After all exit criteria pass and `.scrub.log` is written:
    - If a `CHANGELOG.md` exists, add a new version section at the top with today's date and the scrub changes
 
 3. **Commit, tag, and push:**
+
    ```bash
    git add package.json CHANGELOG.md   # (or equivalent)
    git commit -m "chore: bump version to X.Y.Z"
@@ -303,12 +304,14 @@ After all exit criteria pass and `.scrub.log` is written:
 4. **Cut the GitHub release:**
    - Generate release notes from the scrub summary (security fixes, docs added, etc.)
    - Write notes to a temp file and use `gh release create`:
+
    ```bash
    gh release create vX.Y.Z \
      --title "vX.Y.Z" \
      --notes-file /tmp/release-notes.md \
      --latest
    ```
+
    - Report the release URL to the user
 
 **If no `package.json` or version manifest exists:** skip the version bump, still cut the GitHub release tagged from the current HEAD.

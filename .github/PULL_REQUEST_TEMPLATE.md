@@ -9,6 +9,7 @@
 ## Test plan
 
 <!-- How did you verify this works? -->
+
 - [ ] `npm test` passes
 - [ ] `npm run lint` passes
 - [ ] Tested manually with Claude Code

@@ -2,6 +2,19 @@
 
 All notable changes to claude-kit are documented here.
 
+## [1.0.4] - 2026-05-06
+
+### Fixed
+
+- Add the missing `.semgrep/defensive-patterns.yaml` config so `npm run security:scan:ci` works for release checks.
+- Wire Husky `pre-commit` and `commit-msg` hooks to match the documented lint-staged and commitlint workflow.
+- Tighten `knip.config.js` to the actual source layout so `npm run dead-code:strict` passes.
+- Apply Prettier formatting to release-facing templates, `SECURITY.md`, `/bs:scrub`, and the agent dashboard server.
+
+### Removed
+
+- Remove unused `fast-check` dev dependency.
+
 ## [1.0.2] - 2026-04-19
 
 ### Fixed
