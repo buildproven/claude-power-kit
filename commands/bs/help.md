@@ -58,13 +58,11 @@ Use the extracted data to generate the help output. Group commands by `category`
 | github      | GitHub Commands            |
 | claude-code | Claude Code Commands       |
 
-Also include these utility commands (no frontmatter - hardcode these 3 only):
+Also include this utility command (no frontmatter - hardcode this only):
 
-| Command            | Description                                | Category            |
-| ------------------ | ------------------------------------------ | ------------------- |
-| `/debug`           | Systematic debugging protocol (when stuck) | Strategy & Planning |
-| `/refactor`        | Code quality cleanup (jscpd + knip)        | Strategy & Planning |
-| `/update-claudemd` | Update CLAUDE.md with session learnings    | Strategy & Planning |
+| Command            | Description                             | Category            |
+| ------------------ | --------------------------------------- | ------------------- |
+| `/update-claudemd` | Update CLAUDE.md with session learnings | Strategy & Planning |
 
 ---
 
@@ -109,7 +107,7 @@ Ask Claude naturally to invoke. Example: "Run the quality skill"
 **Full reference**: `/bs:help --full`
 **Workflow guide**: `/bs:workflow`
 **Cheat sheet**: `~/Projects/claude-kit/commands/README.md`
-**Optimization**: `/cc:optimize`
+**Optimization**: `/cc:optimize` (from core layer)
 ```
 
 ---
