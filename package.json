@@ -1,6 +1,6 @@
 {
   "name": "claude-kit",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "description": "Free, open-source Claude Code toolkit — commands, skills, agents, and quality automation",
   "scripts": {
@@ -28,7 +28,6 @@
     "eslint": "^9.12.0",
     "eslint-plugin-n": "^17.24.0",
     "eslint-plugin-security": "^3.0.1",
-    "fast-check": "^4.6.0",
     "globals": "^15.9.0",
     "husky": "^9.1.4",
     "knip": "^6.0.1",

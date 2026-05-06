@@ -1,0 +1,34 @@
+rules:
+  - id: unsafe-json-parse
+    message: "JSON.parse can throw. Wrap parsing in try/catch or use a safe parse helper."
+    severity: WARNING
+    languages:
+      - javascript
+      - typescript
+    patterns:
+      - pattern: JSON.parse(...)
+      - pattern-not-inside: |
+          try {
+            ...
+          } catch {
+            ...
+          }
+      - pattern-not-inside: |
+          try {
+            ...
+          } catch ($ERR) {
+            ...
+          }
+
+  - id: shell-command-injection-risk
+    message: "Avoid shell interpolation in child process calls. Prefer execFile/spawn with argument arrays."
+    severity: WARNING
+    languages:
+      - javascript
+      - typescript
+    patterns:
+      - pattern-either:
+          - pattern: exec($CMD, ...)
+          - pattern: execSync($CMD, ...)
+      - pattern-not: execFile(...)
+      - pattern-not: execFileSync(...)

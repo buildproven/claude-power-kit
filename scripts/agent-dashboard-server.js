@@ -78,7 +78,9 @@ function getAgentTaskFiles() {
 function buildStatus() {
   const claudeDir = process.env.CLAUDE_DASHBOARD_DIR || "";
 
-  const devState = claudeDir ? safeRead(path.join(claudeDir, "dev-state.json")) : null;
+  const devState = claudeDir
+    ? safeRead(path.join(claudeDir, "dev-state.json"))
+    : null;
 
   let evidence = [];
   if (claudeDir) {
