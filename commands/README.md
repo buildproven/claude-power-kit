@@ -59,8 +59,6 @@ Commands use prefixes: `/bs:` (workflow), `/gh:` (GitHub), `/cc:` (Claude Code),
 
 | Command              | Purpose                            |
 | -------------------- | ---------------------------------- |
-| `/debug`             | Systematic debugging               |
-| `/refactor`          | Cleanup and simplification         |
 | `/update-claudemd`   | Capture learnings into `CLAUDE.md` |
 | `/gh:review-pr`      | Review a pull request              |
 | `/gh:fix-issue`      | Work a GitHub issue                |
