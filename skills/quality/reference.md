@@ -102,5 +102,5 @@ Best for `--level 98` or `--scope all` (10+ min runs). Task subagents are faster
 After quality completes:
 
 - `--merge`: "Run `/clear` then `/bs:dev` for next feature"
-- Failed: "Run `/debug` to investigate"
+- Failed: "Run `/bs:investigate` to investigate"
 - `--audit`: "Run `/bs:quality` to fix issues found"
